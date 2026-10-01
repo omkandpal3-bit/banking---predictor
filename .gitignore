@@ -27,7 +27,6 @@ instance/
 Thumbs.db
 
 # Project specific
-models/
-*.pkl
+
 *.csv
 .DS_Store
