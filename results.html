@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results - Banking Customer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .customer-name {
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .timestamp {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .risk-low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .risk-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .risk-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .prediction-value {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .prediction-label {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+
+        .card-detail {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        .summary-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .summary-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .summary-text {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .error-section {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .prediction-value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Prediction Results</h1>
+            <div class="customer-name" id="customerName">Loading...</div>
+            <div class="timestamp" id="timestamp"></div>
+        </div>
+
+        <div id="errorSection"></div>
+
+        <!-- RESULTS CARDS -->
+        <div class="results-grid">
+            <!-- Model 1: Default Risk -->
+            <div class="result-card">
+                <div class="card-title">💳 Credit Default Risk</div>
+                <div class="risk-badge" id="badge1"></div>
+                <div class="prediction-value" id="value1">-</div>
+                <div class="prediction-label">Probability of Default</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress1" style="width: 0%"></div>
+                </div>
+                <div class="card-detail" id="detail1"></div>
+            </div>
+
+            <!-- Model 2: Churn Risk -->
+            <div class="result-card">
+                <div class="card-title">👥 Customer Churn Risk</div>
+                <div class="risk-badge" id="badge2"></div>
+                <div class="prediction-value" id="value2">-</div>
+                <div class="prediction-label">Churn Probability</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress2" style="width: 0%"></div>
+                </div>
+                <div class="card-detail" id="detail2"></div>
+            </div>
+
+            <!-- Model 3: Segmentation -->
+            <div class="result-card">
+                <div class="card-title">🎯 Customer Segment</div>
+                <div class="risk-badge risk-medium" id="badge3">Segment</div>
+                <div class="prediction-value" id="value3">-</div>
+                <div class="prediction-label">Customer Classification</div>
+                <div class="card-detail" id="detail3"></div>
+            </div>
+
+            <!-- Model 4: Profitability -->
+            <div class="result-card">
+                <div class="card-title">💰 Customer Lifetime Value</div>
+                <div class="risk-badge risk-medium">Value Prediction</div>
+                <div class="prediction-value" id="value4">-</div>
+                <div class="prediction-label">Expected Lifetime Revenue</div>
+                <div class="card-detail" id="detail4"></div>
+            </div>
+        </div>
+
+        <!-- SUMMARY SECTION -->
+        <div class="summary-section">
+            <div class="summary-title">📋 Executive Summary & Recommendations</div>
+            
+            <div class="summary-item">
+                <div class="summary-label">🔍 Overall Risk Assessment</div>
+                <div class="summary-text" id="summaryRisk">Analyzing customer risk profile...</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">💡 Recommended Actions</div>
+                <div class="summary-text" id="summaryActions">Generating recommendations...</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">📈 Business Opportunity</div>
+                <div class="summary-text" id="summaryOpportunity">Assessing profitability potential...</div>
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="btn-primary" onclick="printResults()">🖨️ Print Report</button>
+            <button class="btn-secondary" onclick="goBack()">← Back to Form</button>
+        </div>
+    </div>
+
+    <script>
+        // Load results from localStorage
+        function loadResults() {
+            const resultsJSON = localStorage.getItem('predictionResults');
+            
+            if (!resultsJSON) {
+                document.getElementById('errorSection').innerHTML = `
+                    <div class="error-section">
+                        <strong>Error:</strong> No prediction results found. <a href="/">Go back to form</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const results = JSON.parse(resultsJSON);
+            
+            // Display header
+            document.getElementById('customerName').textContent = `👤 ${results.customer_name}`;
+            document.getElementById('timestamp').textContent = `Generated: ${results.timestamp}`;
+
+            // Model 1: Default Risk
+            const m1 = results.model_1_default_risk;
+            if (m1.error) {
+                document.getElementById('value1').textContent = 'ERROR';
+                document.getElementById('detail1').textContent = m1.error;
+            } else {
+                const percentage = m1.risk_percentage || 0;
+                document.getElementById('value1').textContent = percentage.toFixed(1) + '%';
+                document.getElementById('progress1').style.width = percentage + '%';
+                document.getElementById('badge1').textContent = m1.risk_level;
+                document.getElementById('badge1').className = 'risk-badge ' + getRiskClass(m1.risk_level);
+                document.getElementById('detail1').innerHTML = `
+                    <strong>Prediction:</strong> ${m1.prediction}<br>
+                    <strong>Risk Level:</strong> ${m1.risk_level}
+                `;
+            }
+
+            // Model 2: Churn Risk
+            const m2 = results.model_2_churn_risk;
+            if (m2.error) {
+                document.getElementById('value2').textContent = 'ERROR';
+                document.getElementById('detail2').textContent = m2.error;
+            } else {
+                const percentage = m2.risk_percentage || 0;
+                document.getElementById('value2').textContent = percentage.toFixed(1) + '%';
+                document.getElementById('progress2').style.width = percentage + '%';
+                document.getElementById('badge2').textContent = m2.risk_level;
+                document.getElementById('badge2').className = 'risk-badge ' + getRiskClass(m2.risk_level);
+                document.getElementById('detail2').innerHTML = `
+                    <strong>Prediction:</strong> ${m2.prediction}<br>
+                    <strong>Risk Level:</strong> ${m2.risk_level}
+                `;
+            }
+
+            // Model 3: Segmentation
+            const m3 = results.model_3_segmentation;
+            if (m3.error) {
+                document.getElementById('value3').textContent = 'ERROR';
+                document.getElementById('detail3').textContent = m3.error;
+            } else {
+                document.getElementById('value3').textContent = m3.segment;
+                document.getElementById('detail3').innerHTML = `
+                    <strong>Cluster:</strong> ${m3.cluster}<br>
+                    <strong>Segment:</strong> ${m3.segment}
+                `;
+            }
+
+            // Model 4: Profitability
+            const m4 = results.model_4_profitability;
+            if (m4.error) {
+                document.getElementById('value4').textContent = 'ERROR';
+                document.getElementById('detail4').textContent = m4.error;
+            } else {
+                document.getElementById('value4').textContent = m4.clv_formatted;
+                document.getElementById('detail4').innerHTML = `
+                    <strong>Predicted CLV:</strong> ${m4.clv_formatted}<br>
+                    <strong>Profit Level:</strong> ${m4.profit_level}
+                `;
+            }
+
+            // Generate Summary
+            generateSummary(results);
+        }
+
+        function getRiskClass(riskLevel) {
+            if (riskLevel.includes('Low')) return 'risk-low';
+            if (riskLevel.includes('High')) return 'risk-high';
+            return 'risk-medium';
+        }
+
+        function generateSummary(results) {
+            const m1 = results.model_1_default_risk;
+            const m2 = results.model_2_churn_risk;
+            const m3 = results.model_3_segmentation;
+            const m4 = results.model_4_profitability;
+
+            // Overall Risk
+            let overallRisk = 'Moderate';
+            if (m1.risk_level && m1.risk_level.includes('High')) overallRisk = 'High';
+            if (m1.risk_level && m1.risk_level.includes('Low') && m2.risk_level && m2.risk_level.includes('Low')) overallRisk = 'Low';
+
+            document.getElementById('summaryRisk').textContent = 
+                `This customer has ${overallRisk.toLowerCase()} overall risk. Default risk: ${m1.risk_percentage?.toFixed(1)}%, Churn risk: ${m2.risk_percentage?.toFixed(1)}%. Segment: ${m3.segment}`;
+
+            // Recommendations
+            let actions = [];
+            if (m1.risk_level && m1.risk_level.includes('High')) {
+                actions.push('🔴 Implement enhanced credit monitoring and risk mitigation strategies');
+            }
+            if (m2.risk_level && m2.risk_level.includes('High')) {
+                actions.push('⚠️ Launch retention campaign to prevent customer churn');
+            }
+            if (m1.risk_level && m1.risk_level.includes('Low') && m2.risk_level && m2.risk_level.includes('Low')) {
+                actions.push('✅ Low-risk customer - suitable for upselling and cross-selling opportunities');
+            }
+            actions.push('📊 Monitor customer behavior and engagement metrics regularly');
+
+            document.getElementById('summaryActions').textContent = actions.join(' | ');
+
+            // Opportunity
+            if (m4.clv_predicted > 2000000) {
+                document.getElementById('summaryOpportunity').textContent = 
+                    `High-value customer with strong lifetime value (${m4.clv_formatted}). Prioritize relationship management and personalized service.`;
+            } else if (m4.clv_predicted > 1000000) {
+                document.getElementById('summaryOpportunity').textContent = 
+                    `Medium-value customer with solid potential (${m4.clv_formatted}). Focus on deepening engagement and loyalty.`;
+            } else {
+                document.getElementById('summaryOpportunity').textContent = 
+                    `Standard customer segment (${m4.clv_formatted}). Build relationship foundation for future growth.`;
+            }
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        function goBack() {
+            window.location.href = '/';
+        }
+
+        // Load results on page load
+        window.addEventListener('load', loadResults);
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+================================================================================
+BANKING ANALYTICS - CUSTOMER RISK & PROFITABILITY PREDICTOR
+Setup Instructions
+================================================================================
+
+📦 PROJECT STRUCTURE
+================================================================================
+
+banking-predictor/
+├── index.html                  (Beautiful form - open this in browser)
+├── style.css                   (Styling)
+├── script.js                   (Frontend logic)
+├── app.py                      (Flask backend - run this)
+├── requirements.txt            (Python dependencies)
+├── README.md                   (Full documentation)
+├── SETUP.txt                   (This file)
+└── models/                     (PUT YOUR 4 PKL FILES HERE)
+    ├── logistic_default_model.pkl
+    ├── random_forest_churn_model.pkl
+    ├── kmeans_segmentation_model.pkl
+    ├── linear_regression_profit_model.pkl
+    ├── scaler_default.pkl
+    ├── scaler_clustering.pkl
+    ├── scaler_profit.pkl
+    ├── feature_names_default.pkl
+    ├── feature_names_clustering.pkl
+    ├── feature_names_profit.pkl
+    └── segment_names.pkl
+
+================================================================================
+⚡ QUICK START (3 STEPS)
+================================================================================
+
+STEP 1: Install Python Dependencies
+------------------------------------
+Open terminal/command prompt in this folder and run:
+
+    pip install -r requirements.txt
+
+This installs Flask, pandas, scikit-learn, etc.
+
+
+STEP 2: Copy Your Model Files
+------------------------------
+1. Run your Jupyter notebook to generate 4 pkl files
+2. Copy ALL pkl files to the "models/" folder
+3. Make sure folder looks like:
+   models/
+   ├── logistic_default_model.pkl
+   ├── random_forest_churn_model.pkl
+   ├── kmeans_segmentation_model.pkl
+   └── linear_regression_profit_model.pkl
+   (+ all the scaler and feature files)
+
+
+STEP 3: Run the Application
+----------------------------
+In the same terminal, run:
+
+    python app.py
+
+You should see:
+    ✓ All models loaded successfully!
+    Server running on: http://127.0.0.1:5000
+
+Then open your browser and go to:
+
+    http://127.0.0.1:5000
+
+================================================================================
+✅ SUCCESS CHECKLIST
+================================================================================
+
+Before running, verify:
+
+☑ All 6 files in root folder (index.html, style.css, script.js, app.py, etc.)
+☑ models/ folder exists
+☑ All 11 pkl files are in models/ folder (check file names match exactly)
+☑ Python 3.7+ installed
+☑ requirements.txt dependencies installed
+☑ No errors when running "python app.py"
+
+================================================================================
+📝 WHAT HAPPENS WHEN YOU RUN IT
+================================================================================
+
+1. Python Flask server starts on http://127.0.0.1:5000
+2. 4 models are loaded from pkl files
+3. Beautiful form appears in your browser
+4. You fill in customer details (30+ fields)
+5. Click "Generate Predictions"
+6. All 4 models run simultaneously
+7. Professional report with 4 predictions appears
+8. Print or download the report
+
+================================================================================
+🚀 USAGE
+================================================================================
+
+1. Open http://127.0.0.1:5000 in browser
+2. Fill in customer information:
+   - Personal (Age, Gender, Occupation)
+   - Financial (Income, Credit Score, Loan)
+   - Behavioral (Transactions, Engagement, Satisfaction)
+3. Click "Generate Predictions"
+4. See results for:
+   ✓ Default Risk (0-100%)
+   ✓ Churn Risk (0-100%)
+   ✓ Customer Segment (Cluster name)
+   ✓ Lifetime Value (₹ amount)
+5. Print or download the report
+
+================================================================================
+❌ TROUBLESHOOTING
+================================================================================
+
+ERROR: "Models not loaded"
+→ Check models/ folder has all 4 pkl files
+→ Verify file names match exactly (case-sensitive)
+
+ERROR: "No module named 'flask'"
+→ Run: pip install -r requirements.txt
+
+ERROR: "Port 5000 already in use"
+→ Another app is using port 5000
+→ Either close that app or change port in app.py
+
+ERROR: Form not loading
+→ Check browser console (F12 → Console tab)
+→ Verify Flask server is running
+→ Try http://127.0.0.1:5000 (with http://)
+
+ERROR: Predictions return "-"
+→ Check Flask terminal for error messages
+→ Verify all pkl files exist in models/
+→ Check feature names match model training
+
+================================================================================
+🎨 CUSTOMIZATION
+================================================================================
+
+Want to change colors?
+→ Edit style.css, look for :root { ... }
+→ Change --primary-color, --secondary-color, etc.
+
+Want to add/remove form fields?
+→ Edit index.html (remove <div class="form-group">...</div>)
+→ Update app.py to match features
+
+Want different recommendations?
+→ Edit script.js, function generateRecommendations()
+
+Want different report sections?
+→ Edit index.html, section "Detailed Report"
+
+================================================================================
+📞 SUPPORT
+================================================================================
+
+For detailed info, see README.md in this folder.
+
+Common Issues:
+- Check all pkl files exist in models/
+- Check Python dependencies installed (pip list)
+- Check Flask server is running (should show ✓ in terminal)
+- Check no errors in Flask terminal
+- Check browser console (F12) for JavaScript errors
+
+================================================================================
+🎓 NEXT STEPS
+================================================================================
+
+After setup works:
+1. Test with sample customer data
+2. Verify all 4 models produce reasonable predictions
+3. Customize styling (colors, logo, etc.)
+4. Adjust business rules (risk thresholds, recommendations)
+5. Deploy to production (Heroku, AWS, etc.)
+
+================================================================================
+✨ ENJOY YOUR AI-POWERED PREDICTION SYSTEM!
+================================================================================
+
+Questions? Check README.md for detailed documentation.
+
+Happy Predicting! 🚀
