@@ -321,11 +321,8 @@ def predict():
                 feature_names_profit
             )
             
-            # Scale features
-            X_profit_scaled = scaler_profit.transform(X_profit)
-            
-            # Predict
-            clv_predicted = model_4_profit.predict(X_profit_scaled)[0]
+            # Linear regression was trained on unscaled data
+            clv_predicted = model_4_profit.predict(X_profit)[0]
             
             model_4_result = {
                 'clv_predicted': float(clv_predicted),
