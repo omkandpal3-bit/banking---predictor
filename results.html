@@ -1,329 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction Results - Banking Customer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .customer-name {
-            color: #666;
-            font-size: 1.3em;
-            margin-bottom: 5px;
-        }
-
-        .timestamp {
-            color: #999;
-            font-size: 0.9em;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .result-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .result-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-title {
-            font-size: 1.3em;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .risk-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-        }
-
-        .risk-low {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .risk-medium {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .risk-high {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .prediction-value {
-            font-size: 2.5em;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .prediction-label {
-            color: #666;
-            font-size: 1em;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            background: #e0e0e0;
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            border-radius: 5px;
-        }
-
-        .card-detail {
-            color: #666;
-            font-size: 0.95em;
-            line-height: 1.6;
-            margin-top: 15px;
-        }
-
-        .separator {
-            border: none;
-            border-top: 1px solid #eee;
-            margin: 20px 0;
-        }
-
-        .summary-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .summary-title {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .summary-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
-        .summary-label {
-            color: #667eea;
-            font-weight: 600;
-            font-size: 1em;
-        }
-
-        .summary-text {
-            color: #666;
-            font-size: 0.95em;
-            margin-top: 5px;
-            line-height: 1.6;
-        }
-
-        .actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            justify-content: center;
-        }
-
-        button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .emoji {
-            font-size: 2em;
-            margin-right: 10px;
-        }
-
-        .error-section {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .prediction-value {
-                font-size: 2em;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction results | Nova Bank</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap">
+<style>
+:root{--bg:#0b0a08;--card:#14120e;--line:rgba(212,175,55,.28);--gold:#d4af37;--gold2:#f3dc9a;--tx:#f5efe0;--mut:#a89c80;--red:#e5736b;--grn:#7fcf9b;--amb:#e8b84f;--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(700px 260px at 50% -8%,rgba(212,175,55,.22),transparent),var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.5}
+.wrap{max-width:900px;margin:0 auto;padding:28px 16px 64px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.logo{font-family:var(--serif);letter-spacing:.22em;font-size:18px;color:var(--gold)}
+.top span{color:var(--mut);font-size:13px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,5vw,40px);margin:0 0 6px}
+.sub{color:var(--mut);margin:0 0 20px}
+.prog{position:sticky;top:0;z-index:5;background:rgba(11,10,8,.92);backdrop-filter:blur(8px);padding:10px 0 12px;margin-bottom:8px}
+.prog .t{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:6px}
+.track{height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .3s}
+.card,.form-section{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:22px;margin-bottom:18px}
+.sec-t{display:flex;align-items:baseline;gap:12px;font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 18px}
+.sec-t b{font-size:13px;color:var(--gold);letter-spacing:.15em;font-family:var(--sans);font-weight:500}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.form-group.full{grid-column:1/-1}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+input[type=text],input[type=number],select{width:100%;padding:11px 12px;background:#0d0c09;border:1px solid var(--line);border-radius:4px;color:var(--tx);font:inherit}
+input:focus,select:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.18)}
+.hint{font-size:12px;color:#7d7357;margin-top:5px}
+.error-message{display:none;font-size:12px;color:var(--red);margin-top:5px}
+.form-group.error .error-message{display:block}
+.form-group.error input,.form-group.error select{border-color:var(--red)}
+.radio-group{display:flex;gap:12px}
+.radio-group label{display:flex;align-items:center;gap:8px;margin:0;padding:10px 18px;border:1px solid var(--line);border-radius:4px;color:var(--tx);cursor:pointer}
+.radio-group input{accent-color:var(--gold)}
+.btn{font:inherit;font-weight:500;padding:13px 26px;border:0;border-radius:4px;cursor:pointer;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#1a1405;box-shadow:0 0 24px rgba(212,175,55,.25)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--tx);box-shadow:none}
+#successMessage{display:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card h2{font-family:var(--serif);font-weight:500;font-size:18px;margin:0 0 2px}
+.lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.ring{--p:0;width:130px;height:130px;margin:14px auto;border-radius:50%;background:conic-gradient(var(--gold) calc(var(--p)*1%),rgba(255,255,255,.08) 0);display:grid;place-items:center;box-shadow:0 0 28px rgba(212,175,55,.2)}
+.ring div{width:100px;height:100px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-family:var(--serif);font-size:26px}
+.big{font-family:var(--serif);font-size:34px;color:var(--gold2);margin:14px 0 8px;word-break:break-word}
+.risk-badge{display:inline-block;font-size:12px;padding:3px 12px;border-radius:99px;border:1px solid transparent}
+.risk-low{color:var(--grn);border-color:var(--grn)}
+.risk-medium{color:var(--amb);border-color:var(--amb)}
+.risk-high{color:var(--red);border-color:var(--red)}
+.detail{font-size:14px;color:var(--mut);margin-top:12px}
+.detail strong{color:var(--tx);font-weight:500}
+.sum p{color:var(--mut);margin:4px 0 14px}
+.hid{display:none}
+.error-section{border:1px solid var(--red);color:var(--red);padding:14px;border-radius:4px;margin-bottom:18px}
+.error-section a{color:var(--gold)}
+@media print{.acts{display:none}body{background:#fff;color:#111}.card{background:#fff;border-color:#bbb}.big,.logo{color:#7a5d00}.detail,.sum p{color:#333}.ring div{background:#fff}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📊 Prediction Results</h1>
-            <div class="customer-name" id="customerName">Loading...</div>
-            <div class="timestamp" id="timestamp"></div>
-        </div>
-
-        <div id="errorSection"></div>
-
-        <!-- RESULTS CARDS -->
-        <div class="results-grid">
-            <!-- Model 1: Default Risk -->
-            <div class="result-card">
-                <div class="card-title">💳 Credit Default Risk</div>
-                <div class="risk-badge" id="badge1"></div>
-                <div class="prediction-value" id="value1">-</div>
-                <div class="prediction-label">Probability of Default</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1" style="width: 0%"></div>
-                </div>
-                <div class="card-detail" id="detail1"></div>
-            </div>
-
-            <!-- Model 2: Churn Risk -->
-            <div class="result-card">
-                <div class="card-title">👥 Customer Churn Risk</div>
-                <div class="risk-badge" id="badge2"></div>
-                <div class="prediction-value" id="value2">-</div>
-                <div class="prediction-label">Churn Probability</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress2" style="width: 0%"></div>
-                </div>
-                <div class="card-detail" id="detail2"></div>
-            </div>
-
-            <!-- Model 3: Segmentation -->
-            <div class="result-card">
-                <div class="card-title">🎯 Customer Segment</div>
-                <div class="risk-badge risk-medium" id="badge3">Segment</div>
-                <div class="prediction-value" id="value3">-</div>
-                <div class="prediction-label">Customer Classification</div>
-                <div class="card-detail" id="detail3"></div>
-            </div>
-
-            <!-- Model 4: Profitability -->
-            <div class="result-card">
-                <div class="card-title">💰 Customer Lifetime Value</div>
-                <div class="risk-badge risk-medium">Value Prediction</div>
-                <div class="prediction-value" id="value4">-</div>
-                <div class="prediction-label">Expected Lifetime Revenue</div>
-                <div class="card-detail" id="detail4"></div>
-            </div>
-        </div>
-
-        <!-- SUMMARY SECTION -->
-        <div class="summary-section">
-            <div class="summary-title">📋 Executive Summary & Recommendations</div>
-            
-            <div class="summary-item">
-                <div class="summary-label">🔍 Overall Risk Assessment</div>
-                <div class="summary-text" id="summaryRisk">Analyzing customer risk profile...</div>
-            </div>
-
-            <div class="summary-item">
-                <div class="summary-label">💡 Recommended Actions</div>
-                <div class="summary-text" id="summaryActions">Generating recommendations...</div>
-            </div>
-
-            <div class="summary-item">
-                <div class="summary-label">📈 Business Opportunity</div>
-                <div class="summary-text" id="summaryOpportunity">Assessing profitability potential...</div>
-            </div>
-        </div>
-
-        <!-- ACTIONS -->
-        <div class="actions">
-            <button class="btn-primary" onclick="printResults()">🖨️ Print Report</button>
-            <button class="btn-secondary" onclick="goBack()">← Back to Form</button>
-        </div>
-    </div>
-
-    <script>
+<div class="wrap">
+<div class="top"><div class="logo">NOVA BANK</div><div class="acts"><button class="btn ghost" onclick="goBack()">New assessment</button> <button class="btn" onclick="printResults()">Print report</button></div></div>
+<h1>Prediction results</h1>
+<p class="sub"><span id="customerName"></span> &middot; <span id="timestamp"></span></p>
+<div id="errorSection"></div>
+<div class="grid">
+<div class="card"><h2>Default risk</h2><div class="lab">Logistic regression</div><div class="ring" id="ring1"><div id="value1">-</div></div><div style="text-align:center"><span id="badge1" class="risk-badge"></span></div><div class="track hid"><i id="progress1"></i></div><div class="detail" id="detail1"></div></div>
+<div class="card"><h2>Churn risk</h2><div class="lab">Random forest</div><div class="ring" id="ring2"><div id="value2">-</div></div><div style="text-align:center"><span id="badge2" class="risk-badge"></span></div><div class="track hid"><i id="progress2"></i></div><div class="detail" id="detail2"></div></div>
+<div class="card"><h2>Customer segment</h2><div class="lab">K-means</div><div class="big" id="value3">-</div><div class="detail" id="detail3"></div></div>
+<div class="card"><h2>Lifetime value</h2><div class="lab">Linear regression</div><div class="big" id="value4">-</div><div class="detail" id="detail4"></div></div>
+</div>
+<div class="card sum" style="margin-top:18px"><h2>Summary</h2><div class="lab">Overall risk</div><p id="summaryRisk"></p><div class="lab">Recommended actions</div><p id="summaryActions"></p><div class="lab">Opportunity</div><p id="summaryOpportunity"></p></div>
+</div>
+<script>
         // Load results from localStorage
         function loadResults() {
             const resultsJSON = localStorage.getItem('predictionResults');
@@ -336,13 +83,13 @@
                 `;
                 return;
             }
-
+ 
             const results = JSON.parse(resultsJSON);
             
             // Display header
-            document.getElementById('customerName').textContent = `👤 ${results.customer_name}`;
+            document.getElementById('customerName').textContent = `${results.customer_name}`;
             document.getElementById('timestamp').textContent = `Generated: ${results.timestamp}`;
-
+ 
             // Model 1: Default Risk
             const m1 = results.model_1_default_risk;
             if (m1.error) {
@@ -359,7 +106,7 @@
                     <strong>Risk Level:</strong> ${m1.risk_level}
                 `;
             }
-
+ 
             // Model 2: Churn Risk
             const m2 = results.model_2_churn_risk;
             if (m2.error) {
@@ -376,7 +123,7 @@
                     <strong>Risk Level:</strong> ${m2.risk_level}
                 `;
             }
-
+ 
             // Model 3: Segmentation
             const m3 = results.model_3_segmentation;
             if (m3.error) {
@@ -389,7 +136,7 @@
                     <strong>Segment:</strong> ${m3.segment}
                 `;
             }
-
+ 
             // Model 4: Profitability
             const m4 = results.model_4_profitability;
             if (m4.error) {
@@ -402,31 +149,31 @@
                     <strong>Profit Level:</strong> ${m4.profit_level}
                 `;
             }
-
+ 
             // Generate Summary
             generateSummary(results);
         }
-
+ 
         function getRiskClass(riskLevel) {
             if (riskLevel.includes('Low')) return 'risk-low';
             if (riskLevel.includes('High')) return 'risk-high';
             return 'risk-medium';
         }
-
+ 
         function generateSummary(results) {
             const m1 = results.model_1_default_risk;
             const m2 = results.model_2_churn_risk;
             const m3 = results.model_3_segmentation;
             const m4 = results.model_4_profitability;
-
+ 
             // Overall Risk
             let overallRisk = 'Moderate';
             if (m1.risk_level && m1.risk_level.includes('High')) overallRisk = 'High';
             if (m1.risk_level && m1.risk_level.includes('Low') && m2.risk_level && m2.risk_level.includes('Low')) overallRisk = 'Low';
-
+ 
             document.getElementById('summaryRisk').textContent = 
                 `This customer has ${overallRisk.toLowerCase()} overall risk. Default risk: ${m1.risk_percentage?.toFixed(1)}%, Churn risk: ${m2.risk_percentage?.toFixed(1)}%. Segment: ${m3.segment}`;
-
+ 
             // Recommendations
             let actions = [];
             if (m1.risk_level && m1.risk_level.includes('High')) {
@@ -439,9 +186,9 @@
                 actions.push('✅ Low-risk customer - suitable for upselling and cross-selling opportunities');
             }
             actions.push('📊 Monitor customer behavior and engagement metrics regularly');
-
+ 
             document.getElementById('summaryActions').textContent = actions.join(' | ');
-
+ 
             // Opportunity
             if (m4.clv_predicted > 2000000) {
                 document.getElementById('summaryOpportunity').textContent = 
@@ -454,17 +201,21 @@
                     `Standard customer segment (${m4.clv_formatted}). Build relationship foundation for future growth.`;
             }
         }
-
+ 
         function printResults() {
             window.print();
         }
-
+ 
         function goBack() {
             window.location.href = '/';
         }
-
+ 
         // Load results on page load
         window.addEventListener('load', loadResults);
     </script>
+<script>
+window.addEventListener('load',function(){[1,2].forEach(function(n){var w=parseFloat(document.getElementById('progress'+n).style.width)||0;document.getElementById('ring'+n).style.setProperty('--p',w);});});
+</script>
 </body>
 </html>
+ 
